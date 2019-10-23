@@ -1,7 +1,196 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "fake-bank-app": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/fake-bank-app",
+      "sourceRoot": "apps/fake-bank-app/src",
+      "prefix": "fake-bank",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/fake-bank-app",
+            "index": "apps/fake-bank-app/src/index.html",
+            "main": "apps/fake-bank-app/src/main.ts",
+            "polyfills": "apps/fake-bank-app/src/polyfills.ts",
+            "tsConfig": "apps/fake-bank-app/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "apps/fake-bank-app/src/favicon.ico",
+              "apps/fake-bank-app/src/assets"
+            ],
+            "styles": ["apps/fake-bank-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/fake-bank-app/src/environments/environment.ts",
+                  "with": "apps/fake-bank-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "fake-bank-app:build",
+            "proxyConfig": "apps/fake-bank-app/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "fake-bank-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "fake-bank-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/fake-bank-app/tsconfig.app.json",
+              "apps/fake-bank-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/fake-bank-app/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/fake-bank-app/jest.config.js",
+            "tsConfig": "apps/fake-bank-app/tsconfig.spec.json",
+            "setupFile": "apps/fake-bank-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "fake-bank-app-e2e": {
+      "root": "apps/fake-bank-app-e2e",
+      "sourceRoot": "apps/fake-bank-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/fake-bank-app-e2e/cypress.json",
+            "tsConfig": "apps/fake-bank-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "fake-bank-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "fake-bank-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/fake-bank-app-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/fake-bank-app-e2e/**"]
+          }
+        }
+      }
+    },
+    "fake-bank-api": {
+      "root": "apps/fake-bank-api",
+      "sourceRoot": "apps/fake-bank-api/src",
+      "projectType": "application",
+      "prefix": "fake-bank-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/fake-bank-api",
+            "main": "apps/fake-bank-api/src/main.ts",
+            "tsConfig": "apps/fake-bank-api/tsconfig.app.json",
+            "assets": ["apps/fake-bank-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/fake-bank-api/src/environments/environment.ts",
+                  "with": "apps/fake-bank-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "fake-bank-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/fake-bank-api/tsconfig.app.json",
+              "apps/fake-bank-api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/fake-bank-api/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/fake-bank-api/jest.config.js",
+            "tsConfig": "apps/fake-bank-api/tsconfig.spec.json"
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "fake-bank-app"
 }

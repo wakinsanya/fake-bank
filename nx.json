@@ -7,5 +7,15 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "fake-bank-app-e2e": {
+      "tags": []
+    },
+    "fake-bank-app": {
+      "tags": []
+    },
+    "fake-bank-api": {
+      "tags": []
+    }
+  }
 }
