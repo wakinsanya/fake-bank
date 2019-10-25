@@ -25,7 +25,10 @@
               "apps/fake-bank-app/src/favicon.ico",
               "apps/fake-bank-app/src/assets"
             ],
-            "styles": ["apps/fake-bank-app/src/styles.scss"],
+            "styles": [
+              "apps/fake-bank-app/src/theme.scss",
+              "apps/fake-bank-app/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -85,7 +88,10 @@
               "apps/fake-bank-app/tsconfig.app.json",
               "apps/fake-bank-app/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/fake-bank-app/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/fake-bank-app/**"
+            ]
           }
         },
         "test": {
@@ -119,8 +125,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/fake-bank-app-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/fake-bank-app-e2e/**"]
+            "tsConfig": [
+              "apps/fake-bank-app-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/fake-bank-app-e2e/**"
+            ]
           }
         }
       }
@@ -138,7 +149,9 @@
             "outputPath": "dist/apps/fake-bank-api",
             "main": "apps/fake-bank-api/src/main.ts",
             "tsConfig": "apps/fake-bank-api/tsconfig.app.json",
-            "assets": ["apps/fake-bank-api/src/assets"]
+            "assets": [
+              "apps/fake-bank-api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -167,7 +180,10 @@
               "apps/fake-bank-api/tsconfig.app.json",
               "apps/fake-bank-api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/fake-bank-api/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/fake-bank-api/**"
+            ]
           }
         },
         "test": {
