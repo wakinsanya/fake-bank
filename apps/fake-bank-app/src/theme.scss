@@ -1,38 +1,40 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
-$fb-blue: (
-  50 : #eef1ff,
-  100 : #d4dcff,
-  200 : #b8c4ff,
-  300 : #9cacff,
-  400 : #869bff,
-  500 : #7189ff,
-  600 : #6981ff,
-  700 : #5e76ff,
-  800 : #546cff,
-  900 : #4259ff,
-  A100 : #ffffff,
-  A200 : #ffffff,
-  A400 : #eaecff,
-  A700 : #d0d5ff,
-  contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #000000,
-      500 : #000000,
-      600 : #000000,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
-  )
+$fb-teal: (
+    50 : #e2f9f9,
+    100 : #b6eff0,
+    200 : #85e4e6,
+    300 : #54d9dc,
+    400 : #30d1d5,
+    500 : #0bc9cd,
+    600 : #0ac3c8,
+    700 : #08bcc1,
+    800 : #06b5ba,
+    900 : #03a9ae,
+    A100 : #d8feff,
+    A200 : #a5fcff,
+    A400 : #72faff,
+    A700 : #58f9ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
 );
+
+
 
 $fb-sky: (
     50 : #f8f9ff,
@@ -100,7 +102,7 @@ $fb-pink: (
     )
 );
 
-$fb-primary: mat-palette($fb-blue);
+$fb-primary: mat-palette($fb-teal);
 $fb-accent: mat-palette($fb-sky);
 $fb-warn: mat-palette($fb-pink);
 
