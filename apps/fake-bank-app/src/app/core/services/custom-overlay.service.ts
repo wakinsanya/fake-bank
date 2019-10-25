@@ -1,24 +1,24 @@
-import { Injectable, Injector, TemplateRef, Type } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { PortalInjector, ComponentPortal } from '@angular/cdk/portal';
 import {
   Overlay,
   OverlayConfig,
   ConnectionPositionPair
 } from '@angular/cdk/overlay';
-// TODO
-// import { CustomOverlayRef } from '../custom-overlay-ref';
-// TODO
-// import { CustomOverlayComponent } from '../components/custom-overlay/custom-overlay.component';
+
+import { CustomOverlayRef, OverlayContent } from '../custom-overlay-ref';
+
 import {
   overlayTop,
   overlayRight,
   overlayBottom,
   overlayLeft
 } from '../constants';
+import { CustomOverlayComponent } from '../custom-overlay/custom-overlay.component';
 
 export interface OverlayOptions<T> {
   origin: HTMLElement;
-  content: TemplateRef<any> | Type<any> | string;
+  content: OverlayContent;
   data?: T;
   width?: number | string;
   height?: number | string;

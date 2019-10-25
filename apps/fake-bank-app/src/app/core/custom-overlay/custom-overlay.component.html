@@ -1,0 +1,13 @@
+<div class="custom-overlay__wrap">
+  <ng-container [ngSwitch]="renderContext">
+      <ng-container *ngSwitchCase="'component'">
+          <ng-container *ngComponentOutlet="content"></ng-container>
+        </ng-container>
+    <ng-container *ngSwitchCase="'template'">
+        <ng-container
+          *ngTemplateOutlet="content; context: context"
+        ></ng-container>
+      </ng-container>
+      <div *ngSwitchCase="'text'" [innerHTML]="content"></div>
+  </ng-container>
+</div>
