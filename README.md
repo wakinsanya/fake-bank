@@ -7,4 +7,4 @@ A distributed electronic banking platform.
 3. Run `npm install` to install requiste dependencies.
 4. Use `ng serve fake-bank-api & ng serve fake-bank-app` to the start the Back End and Front End respectively.
 
-Note: by default the Front End applicaiton will run on port `4200` and the Back End on port `3000`.
+Note: by default the Front End applicaiton will run on port `4200` and the Back End on port `3001`.
