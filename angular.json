@@ -147,11 +147,8 @@
           "builder": "@nrwl/node:build",
           "options": {
             "outputPath": "dist/apps/fake-bank-api",
-            "main": "apps/fake-bank-api/src/main.ts",
-            "tsConfig": "apps/fake-bank-api/tsconfig.app.json",
-            "assets": [
-              "apps/fake-bank-api/src/assets"
-            ]
+            "main": "apps/fake-bank-api/src/server.ts",
+            "tsConfig": "apps/fake-bank-api/tsconfig.app.json"
           },
           "configurations": {
             "production": {
