@@ -3,17 +3,17 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
-import { IndexController } from './index.controller';
+import * as glob from 'glob';
+import { API_ROOT_PATH } from './constants';
 
 class App {
   app: express.Application;
-  indexController: IndexController;
 
   constructor() {
     this.app = express();
+    this.app.use(this.createRootRouter());
     this.initConfig();
     this.initMongoConnection();
-    this.indexController = new IndexController(this.app);
   }
 
   private initConfig() {
@@ -21,6 +21,17 @@ class App {
     this.app.use(compression());
     this.app.use(bodyParser.json({ limit: '4mb' }));
     this.app.use(bodyParser.urlencoded({ limit: '4mb', extended: true }));
+  }
+
+  private createRootRouter(): express.Router {
+    return glob
+      .sync('**/*.ts', { cwd: API_ROOT_PATH })
+      .map(pathname => require(`./${pathname}`))
+      .filter(instance => Object.getPrototypeOf(instance) === express.Router)
+      .reduce(
+        (rootRouter, router) => rootRouter.use(router),
+        express.Router({ mergeParams: true })
+      );
   }
 
   private initMongoConnection() {
