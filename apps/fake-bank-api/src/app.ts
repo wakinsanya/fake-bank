@@ -26,8 +26,8 @@ class App {
   private createRootRouter(): express.Router {
     return glob
       .sync('**/*.ts', { cwd: API_ROOT_PATH })
+      .filter(pathname => pathname.endsWith('routes.ts'))
       .map(pathname => require(`./${pathname}`))
-      .filter(instance => Object.getPrototypeOf(instance) === express.Router)
       .reduce(
         (rootRouter, router) => rootRouter.use(router),
         express.Router({ mergeParams: true })
