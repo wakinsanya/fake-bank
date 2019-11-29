@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { from } from 'rxjs';
 
 export class CurrentAccountController {
-  public createAccount(req: Request, res: Response) {
+  static createAccount(req: Request, res: Response) {
     const currentAccount = new CurrentAccount(req.body);
     from(currentAccount.save()).subscribe({
       next: account => res.status(200).json(account),
@@ -11,7 +11,14 @@ export class CurrentAccountController {
     });
   }
 
-  public getAccount(req: Request, res: Response) {
+  static listAccounts(req: Request, res: Response) {
+    from(CurrentAccount.find({})).subscribe({
+      next: accounts => res.status(200).json(accounts),
+      error: e => res.status(500).json(e)
+    });
+  }
+
+  static getAccount(req: Request, res: Response) {
     const { currentAccountId } = req.params;
     from(CurrentAccount.findOne({ _id: currentAccountId })).subscribe({
       next: account => res.status(200).json(account),
@@ -19,7 +26,7 @@ export class CurrentAccountController {
     });
   }
 
-  public updateAccount(req: Request, res: Response) {
+  static updateAccount(req: Request, res: Response) {
     const { currentAccountId } = req.params;
     from(
       CurrentAccount.updateOne(
@@ -33,7 +40,7 @@ export class CurrentAccountController {
     });
   }
 
-  public deleteAccount(req: Request, res: Response) {
+  static deleteAccount(req: Request, res: Response) {
     const { currentAccountId } = req.params;
     from(CurrentAccount.deleteOne({ _id: currentAccountId })).subscribe({
       next: () => res.status(200).json({ message: 'Current account deleted.' }),
