@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { CurrentAccountController } from '../controllers/current-account.controller';
 
-module.exports = Router({ mergeParams: true })
+const currentAccountRouter: Router =  Router({ mergeParams: true })
   .post('/api/current-accounts', CurrentAccountController.createAccount)
   .get('/api/current-accounts', CurrentAccountController.getAccount)
   .patch('/api/current-accounts', CurrentAccountController.updateAccount)
@@ -13,3 +13,5 @@ module.exports = Router({ mergeParams: true })
     '/api/current-accounts/:currentAccountId',
     CurrentAccountController.deleteAccount
   );
+
+export default currentAccountRouter;

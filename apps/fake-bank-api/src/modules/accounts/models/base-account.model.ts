@@ -5,13 +5,10 @@ export class BaseAccountSchema extends Schema {
     super({
       ...customSchemaConfig,
       owner: {
-        Type: Schema.Types.ObjectId,
-        required: [true, 'owner is required'],
-        ref: 'User'
+        Type: Schema.Types.ObjectId
       },
       balance: {
         type: Number,
-        required: [true, 'balance is required'],
         default: 0
       }
     });

@@ -5,8 +5,5 @@
     "types": ["node"]
   },
   "exclude": ["**/*.spec.ts"],
-  "include": ["**/*.ts"],
-  "path": {
-    "*" : ["./*"],
-  }
+  "include": ["**/*.ts"]
 }

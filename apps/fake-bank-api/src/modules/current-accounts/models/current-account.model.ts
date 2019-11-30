@@ -4,7 +4,7 @@ import {
 } from '../../accounts/models/base-account.model';
 import * as mongoose from 'mongoose';
 
-export class CurrentAccountSchema extends BaseAccountSchema {
+class CurrentAccountSchema extends BaseAccountSchema {
   constructor() {
     super({
       overdraftLimit: {

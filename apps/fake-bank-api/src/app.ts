@@ -27,7 +27,8 @@ class App {
     return glob
       .sync('**/*.ts', { cwd: API_ROOT_PATH })
       .filter(pathname => pathname.endsWith('routes.ts'))
-      .map(pathname => require(`./${pathname}`))
+      .map(pathname => require(`../${pathname}`))
+      .filter(router => Object.getPrototypeOf(router) === express.Router)
       .reduce(
         (rootRouter, router) => rootRouter.use(router),
         express.Router({ mergeParams: true })
