@@ -2,8 +2,8 @@ import { User } from '../models/users.model';
 import { Request, Response } from 'express';
 import { from } from 'rxjs';
 
-export class UsersController {
-  public createUser(req: Request, res: Response) {
+export default class UsersController {
+  static createUser(req: Request, res: Response) {
     const newUser = new User(req.body);
     from(newUser.save()).subscribe({
       next: user => res.status(200).json(user),
@@ -11,7 +11,7 @@ export class UsersController {
     });
   }
 
-  public getUser(req: Request, res: Response) {
+  static getUser(req: Request, res: Response) {
     const { userId } = req.params;
     from(User.findOne({ _id: userId })).subscribe({
       next: user => res.status(200).json(user),
@@ -19,7 +19,7 @@ export class UsersController {
     });
   }
 
-  public updateUser(req: Request, res: Response) {
+  static updateUser(req: Request, res: Response) {
     const { userId } = req.params;
     from(
       User.updateOne({ _id: userId }, { $set: req.body }, { new: true })
@@ -29,7 +29,7 @@ export class UsersController {
     });
   }
 
-  public deleteUser(req: Request, res: Response) {
+  static deleteUser(req: Request, res: Response) {
     const { userId } = req.params;
     from(User.deleteOne({ _id: userId })).subscribe({
       next: () => res.status(200).json({ message: 'User deleted.' }),

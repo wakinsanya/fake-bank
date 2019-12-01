@@ -4,14 +4,14 @@ import * as compression from 'compression';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as glob from 'glob';
-import { API_ROOT_PATH } from './constants';
+import { API_ROOT_PATH, API_ROUTE_SUFFIX } from './constants';
 
 class App {
   app: express.Application;
 
   constructor() {
     this.app = express();
-    this.app.use(this.createRootRouter());
+    this.app.use('/api', this.createRootRouter()).use('*', this.routeNotFound);
     this.initConfig();
     this.initMongoConnection();
   }
@@ -26,8 +26,8 @@ class App {
   private createRootRouter(): express.Router {
     return glob
       .sync('**/*.ts', { cwd: API_ROOT_PATH })
-      .filter(pathname => pathname.endsWith('routes.ts'))
-      .map(pathname => require(`../${pathname}`))
+      .filter(pathname => pathname.endsWith(API_ROUTE_SUFFIX))
+      .map(pathname => require(`../${pathname}`).default)
       .filter(router => Object.getPrototypeOf(router) === express.Router)
       .reduce(
         (rootRouter, router) => rootRouter.use(router),
@@ -49,6 +49,10 @@ class App {
       .catch(e => {
         console.error(e);
       });
+  }
+
+  private routeNotFound(_req: express.Request, res: express.Response) {
+    res.status(404).json({ error: 'not found' });
   }
 }
 

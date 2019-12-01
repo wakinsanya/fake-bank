@@ -2,7 +2,7 @@ import { CurrentAccount } from '../models/current-account.model';
 import { Request, Response } from 'express';
 import { from } from 'rxjs';
 
-export class CurrentAccountController {
+export default class CurrentAccountController {
   static createAccount(req: Request, res: Response) {
     const currentAccount = new CurrentAccount(req.body);
     from(currentAccount.save()).subscribe({

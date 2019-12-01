@@ -4,7 +4,7 @@ import { AccountSchema, Account } from '../../accounts/models/account.model';
 const UserSchema: mongoose.Schema = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, 'email is required'],
+    required: true,
     lowercase: true,
     trim: true,
     unique: true,
@@ -12,12 +12,12 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: [true, 'first name is required'],
+    required: true,
     trim: true
   },
   lastName: {
     type: String,
-    required: [true, 'last name is required'],
+    required: true,
     trim: true
   },
   accounts: [AccountSchema]

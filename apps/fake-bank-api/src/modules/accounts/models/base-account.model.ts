@@ -5,7 +5,8 @@ export class BaseAccountSchema extends Schema {
     super({
       ...customSchemaConfig,
       owner: {
-        Type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        required: true
       },
       balance: {
         type: Number,

@@ -9,7 +9,7 @@ export class SavingsAccountSchema extends BaseAccountSchema {
     super({
       annualPercentageYield: {
         type: Number,
-        required: [true, 'annualPercentageYield is required']
+        required: true
       }
     });
   }
