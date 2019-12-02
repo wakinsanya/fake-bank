@@ -12,7 +12,3 @@ export const AccountSchema: Schema = new Schema({
   }
 });
 
-export interface Account {
-  model: string;
-  modelRef: string;
-}

@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-import { AccountSchema, Account } from '../../accounts/models/account.model';
+import { AccountSchema } from '../../accounts/models/account.model';
+import { Account } from '@fake-bank/api-interfaces';
 
 const UserSchema: mongoose.Schema = new mongoose.Schema({
   email: {

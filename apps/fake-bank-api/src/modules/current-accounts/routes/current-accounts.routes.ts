@@ -6,7 +6,7 @@ const currentAccountRouter = Router({ mergeParams: true });
 currentAccountRouter
   .route('/current-accounts')
   .post(CurrentAccountController.createAccount)
-  .get(CurrentAccountController.getAccount)
+  .get(CurrentAccountController.listAccounts)
   .patch(CurrentAccountController.updateAccount);
 
 currentAccountRouter

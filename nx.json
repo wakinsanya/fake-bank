@@ -16,6 +16,9 @@
     },
     "fake-bank-api": {
       "tags": []
+    },
+    "api-interfaces": {
+      "tags": []
     }
   }
 }

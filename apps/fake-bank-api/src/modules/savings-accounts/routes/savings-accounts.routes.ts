@@ -6,7 +6,7 @@ const savingsAccountRouter = Router({ mergeParams: true });
 savingsAccountRouter
   .route('/current-accounts')
   .post(SavingsAccountController.createAccount)
-  .get(SavingsAccountController.getAccount)
+  .get(SavingsAccountController.listAccounts)
   .patch(SavingsAccountController.updateAccount);
 
 savingsAccountRouter
