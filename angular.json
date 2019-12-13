@@ -205,6 +205,60 @@
           }
         }
       }
+    },
+    "transaction-api": {
+      "root": "apps/transaction-api",
+      "sourceRoot": "apps/transaction-api/src",
+      "projectType": "application",
+      "prefix": "transaction-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/transaction-api",
+            "main": "apps/transaction-api/src/main.ts",
+            "tsConfig": "apps/transaction-api/tsconfig.app.json",
+            "assets": ["apps/transaction-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/transaction-api/src/environments/environment.ts",
+                  "with": "apps/transaction-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "transaction-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/transaction-api/tsconfig.app.json",
+              "apps/transaction-api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/transaction-api/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/transaction-api/jest.config.js",
+            "tsConfig": "apps/transaction-api/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {
