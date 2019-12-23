@@ -22,6 +22,9 @@
     },
     "transaction-api": {
       "tags": []
+    },
+    "api-core": {
+      "tags": []
     }
   }
 }
