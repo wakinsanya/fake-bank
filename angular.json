@@ -192,7 +192,7 @@
           "builder": "@nrwl/node:build",
           "options": {
             "outputPath": "dist/apps/transaction-api",
-            "main": "apps/transaction-api/src/main.ts",
+            "main": "apps/transaction-api/src/server.ts",
             "tsConfig": "apps/transaction-api/tsconfig.app.json",
             "assets": ["apps/transaction-api/src/assets"]
           },

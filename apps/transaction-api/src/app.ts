@@ -11,7 +11,7 @@ class App {
   constructor() {
     this.app = express();
     this.app
-      .use('/api', createRootRouter(API_ROOT_PATH, API_ROUTE_SUFFIX))
+      .use('/api/v1/', createRootRouter(API_ROOT_PATH, API_ROUTE_SUFFIX))
       .use('*', routeNotFound);
     this.initConfig();
   }
