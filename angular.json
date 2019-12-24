@@ -159,7 +159,8 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "fake-bank-api:build"
+            "buildTarget": "fake-bank-api:build",
+            "port": 7778
           }
         },
         "lint": {
@@ -213,7 +214,8 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "transaction-api:build"
+            "buildTarget": "transaction-api:build",
+            "port": 7779
           }
         },
         "lint": {
