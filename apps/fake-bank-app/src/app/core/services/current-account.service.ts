@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CurrentAccount } from '@fake-bank/api-interfaces';
+import { CurrentAccount } from '@fake-bank/api-common';
 import { Observable } from 'rxjs';
 
 @Injectable({

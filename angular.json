@@ -181,31 +181,6 @@
         }
       }
     },
-    "api-interfaces": {
-      "root": "libs/api-interfaces",
-      "sourceRoot": "libs/api-interfaces/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/api-interfaces/tsconfig.lib.json",
-              "libs/api-interfaces/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/api-interfaces/jest.config.js",
-            "tsConfig": "libs/api-interfaces/tsconfig.spec.json"
-          }
-        }
-      }
-    },
     "transaction-api": {
       "root": "apps/transaction-api",
       "sourceRoot": "apps/transaction-api/src",
@@ -281,6 +256,31 @@
           "options": {
             "jestConfig": "libs/api-core/jest.config.js",
             "tsConfig": "libs/api-core/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "api-common": {
+      "root": "libs/api-common",
+      "sourceRoot": "libs/api-common/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api-common/tsconfig.lib.json",
+              "libs/api-common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api-common/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api-common/jest.config.js",
+            "tsConfig": "libs/api-common/tsconfig.spec.json"
           }
         }
       }

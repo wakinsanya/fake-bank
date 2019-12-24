@@ -16,8 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@fake-bank/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@fake-bank/api-core": ["libs/api-core/src/index.ts"]
+      "@fake-bank/api-core": ["libs/api-core/src/index.ts"],
+      "@fake-bank/api-common": ["libs/api-common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

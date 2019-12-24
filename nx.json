@@ -17,13 +17,13 @@
     "fake-bank-api": {
       "tags": []
     },
-    "api-interfaces": {
-      "tags": []
-    },
     "transaction-api": {
       "tags": []
     },
     "api-core": {
+      "tags": []
+    },
+    "api-common": {
       "tags": []
     }
   }
