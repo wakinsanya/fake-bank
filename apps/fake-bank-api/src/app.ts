@@ -4,7 +4,7 @@ import * as compression from 'compression';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import { createRootRouter, routeNotFound } from '@fake-bank/api-core';
-import { API_ROOT_PATH, API_ROUTE_SUFFIX } from './constants';
+import { API_NAME, API_ROUTE_SUFFIX } from './constants';
 
 class App {
   app: express.Application;
@@ -12,7 +12,7 @@ class App {
   constructor() {
     this.app = express();
     this.app
-      .use('/api', createRootRouter(API_ROOT_PATH, API_ROUTE_SUFFIX))
+      .use('/api', createRootRouter(API_NAME, API_ROUTE_SUFFIX)).bind(this)
       .use('*', routeNotFound);
     this.initConfig();
     this.initMongoConnection();
