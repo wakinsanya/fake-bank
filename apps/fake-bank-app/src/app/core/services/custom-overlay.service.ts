@@ -15,6 +15,7 @@ import {
   overlayLeft
 } from '../constants';
 import { CustomOverlayComponent } from '../custom-overlay/custom-overlay.component';
+import { CoreModule } from '@fake-bank/core/core.module';
 
 export interface OverlayOptions<T> {
   origin: HTMLElement;
@@ -25,7 +26,7 @@ export interface OverlayOptions<T> {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class CustomOverlayService {
   constructor(private injector: Injector, private overlay: Overlay) {

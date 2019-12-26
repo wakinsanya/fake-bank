@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { CoreModule } from './core/core.module';
+import { CoreModule } from '@fake-bank/core/core.module';
 
 @NgModule({
   declarations: [AppComponent],

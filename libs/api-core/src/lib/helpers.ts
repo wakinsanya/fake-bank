@@ -5,7 +5,6 @@ export function createRootRouter(
   apiName: string,
   apiRouteSuffix: string
 ): Router {
-  console.log(process.cwd());
   return glob
     .sync('**/*.ts', { cwd: `./${process.cwd()}/apps/${apiName}/` })
     .filter(pathname => pathname.endsWith(apiRouteSuffix))

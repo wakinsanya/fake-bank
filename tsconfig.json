@@ -17,7 +17,10 @@
     "baseUrl": ".",
     "paths": {
       "@fake-bank/api-core": ["libs/api-core/src/index.ts"],
-      "@fake-bank/api-common": ["libs/api-common/src/index.ts"]
+      "@fake-bank/api-common": ["libs/api-common/src/index.ts"],
+      "@fake-bank/*": ["apps/fake-bank-app/src/app/*"],
+      "@fake-bank-api/*": ["apps/fake-bank-api/src/*"],
+      "@transaction-api/*": ["apps/transaction-api/src/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]
