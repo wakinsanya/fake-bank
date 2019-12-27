@@ -51,9 +51,10 @@ class App {
     )
       .pipe(
         tap(() => {
-          console.log(chalk.blue(`Conncted to local MongoDB database: ${DB_NAME}`));
+          console.log(chalk.cyan(`Conncted to local MongoDB database: ${DB_NAME}`));
         }),
         mergeMap(() => {
+          console.log(chalk.cyan(`Seeding database...`));
           return from(
             Promise.all([
               UserModel.deleteMany({}),
@@ -124,7 +125,7 @@ class App {
         )
       )
       .subscribe({
-        next: data => console.log(data),
+        next: () => console.log(chalk.cyan('Finished seeding database')),
         error: e => console.error(e)
       });
   }
