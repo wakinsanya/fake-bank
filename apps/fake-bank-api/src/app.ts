@@ -5,18 +5,18 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import { createRootRouter, routeNotFound } from '@fake-bank/api-core';
 import { API_NAME, API_ROUTE_SUFFIX, DB_NAME } from './constants';
-import { from, of, forkJoin } from 'rxjs';
-import { tap, mergeMap, map } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { tap, mergeMap } from 'rxjs/operators';
 import { User as UserModel } from './modules/users/models/users.model';
 import { SavingsAccount } from './modules/savings-accounts/models/savings-accout.model';
 import { CurrentAccount } from './modules/current-accounts/models/current-account.model';
 import { MOCK_USERS } from './seed-data';
 import {
-  User,
   UserDocument,
   SavingsAccountDocument,
   CurrentAccountDocument
 } from '@fake-bank/api-common';
+const chalk = require('chalk');
 
 class App {
   app: express.Application;
@@ -51,7 +51,7 @@ class App {
     )
       .pipe(
         tap(() => {
-          console.log(`Conncted to local MongoDB database: ${DB_NAME}`);
+          console.log(chalk.blue(`Conncted to local MongoDB database: ${DB_NAME}`));
         }),
         mergeMap(() => {
           return from(
