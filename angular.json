@@ -26,7 +26,6 @@
               "apps/fake-bank-app/src/assets"
             ],
             "styles": [
-              "apps/fake-bank-app/src/theme.scss",
               "apps/fake-bank-app/src/styles.scss"
             ],
             "scripts": []
