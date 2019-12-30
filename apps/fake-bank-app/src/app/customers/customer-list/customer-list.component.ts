@@ -6,7 +6,12 @@ import {
   TemplateRef
 } from '@angular/core';
 import { UsersService } from '@fake-bank/core/services/users.service';
-import { User, CurrentAccount, SavingsAccount, TransactionRequest } from '@fake-bank/api-common';
+import {
+  User,
+  CurrentAccount,
+  SavingsAccount,
+  TransactionRequest
+} from '@fake-bank/api-common';
 import { tap, delay } from 'rxjs/operators';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { forkJoin } from 'rxjs';
@@ -27,8 +32,9 @@ interface TransactionFormData {
 })
 export class CustomerListComponent implements OnInit, AfterViewInit {
   @ViewChild('welcomeDialog', { static: true }) welcomeDialog: TemplateRef<any>;
-  isLoadingTransactionData: boolean;
+  isLoading: boolean;
   customers: User[] = [];
+  userAccounts: Array<CurrentAccount | SavingsAccount> = [];
   transactionFormData: TransactionFormData;
   transactionRequest: TransactionRequest = {};
 
@@ -53,8 +59,10 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   startTransaction(customerId: string, templateRef: TemplateRef<any>) {
     this.transactionFormData = {};
-    this.dialogService.open(templateRef);
-    this.isLoadingTransactionData = true;
+    this.dialogService.open(templateRef).onClose.subscribe({
+      next: () => (this.transactionFormData = {})
+    });
+    this.isLoading = true;
     forkJoin([
       this.currentAccountService.getAccounts().pipe(
         tap((currentAccounts: CurrentAccount[]) => {
@@ -81,12 +89,40 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: () => {
           console.log(this.transactionFormData);
-          this.isLoadingTransactionData = false;
+          this.isLoading = false;
         },
         error: e => {
-          this.isLoadingTransactionData = false;
+          this.isLoading = false;
         }
       });
+  }
+
+  showUserAccounts(customerId: string, templateRef: TemplateRef<any>) {
+    this.dialogService.open(templateRef);
+    this.isLoading = true;
+    forkJoin([
+      this.currentAccountService.getAccounts().pipe(
+        tap((currentAccounts: CurrentAccount[]) => {
+          this.userAccounts.push(
+            ...currentAccounts.filter(v => v.owner === customerId)
+          );
+        })
+      ),
+      this.savingsAccountService.getAccounts().pipe(
+        tap((savingsAccounts: SavingsAccount[]) => {
+          this.userAccounts.push(
+            ...savingsAccounts.filter(v => v.owner === customerId)
+          );
+        })
+      )
+    ]).subscribe({
+      next: () => {
+        this.isLoading = false;
+      },
+      error: e => {
+        this.isLoading = false;
+      }
+    });
   }
 
   deleteCustomer(customerId: string) {

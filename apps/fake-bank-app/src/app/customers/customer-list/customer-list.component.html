@@ -21,6 +21,15 @@
           Make a Transaction
         </button>
         <button
+        nbButton
+        status="info"
+        size="small"
+        outline
+        (click)="deleteCustomer(customer._id)"
+      >
+        View Accounts
+      </button>
+        <button
           nbButton
           status="danger"
           size="small"
@@ -56,14 +65,13 @@
     <nb-card>
       <nb-card-body>
         <nb-stepper orientation="horizontal" linear="true">
-          <nb-step [label]="labelOne">
-            <ng-template #labelOne>Transaction type</ng-template>
+          <nb-step label="Transaction type">
             <h4>Choose transaction type</h4>
             <div>
               <nb-select placeholder="transaction type" [(selected)]="transactionRequest.type">
-                <nb-option value="0">deposit</nb-option>
-                <nb-option value="1">widthrawal</nb-option>
-                <nb-option value="2">transfer</nb-option>
+                <nb-option value="deposit">deposit</nb-option>
+                <nb-option value="withdrawal">widthrawal</nb-option>
+                <nb-option value="transfer">transfer</nb-option>
               </nb-select>
             </div>
             <div class="customer_list__transaction-dialog__opts">
@@ -71,37 +79,26 @@
               <button nbButton nbStepperNext [disabled]="!transactionRequest.type">next</button>
             </div>
           </nb-step>
-          <nb-step [label]="labelTwo">
-            <ng-template #labelTwo>Second step</ng-template>
-            <h4>Step content #2</h4>
-            <p class="lorem">
-              Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down.
-              Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up,
-              gravida vizzle, dang.
-            </p>
-            <button nbButton nbStepperPrevious>prev</button>
-            <button nbButton nbStepperNext>next</button>
+          <nb-step label="Information">
+            <h4>Provide transaction information</h4>
+            <div>
+              <input type="text" nbInput fullWidth status="success" placeholder="enter deposit amount">
+            </div>
+            <div class="customer_list__transaction-dialog__opts">
+              <button nbButton nbStepperPrevious>prev</button>
+              <button nbButton nbStepperNext>next</button>
+            </div>
           </nb-step>
-          <nb-step label="Third step">
-            <h4>Step content #3</h4>
-            <p class="lorem">
-              Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down.
-              Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up,
-              gravida vizzle, dang.
-            </p>
-            <button nbButton nbStepperPrevious>prev</button>
-            <button nbButton nbStepperNext>next</button>
-          </nb-step>
-          <nb-step [label]="labelFour">
-            <ng-template #labelFour>Fourth step</ng-template>
-            <h4>Step content #4</h4>
-            <p class="lorem">
-              Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down.
-              Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up,
-              gravida vizzle, dang.
-            </p>
-            <button nbButton nbStepperPrevious>prev</button>
-            <button nbButton disabled nbStepperNext>next</button>
+          <nb-step label="Complete">
+            <h4>Transaction complete</h4>
+            <nb-icon icon="checkmark-circle-outline" status="success"></nb-icon>
+            <nb-icon icon="close-outline" status="danger"></nb-icon>
+            <span>Your transaction was successfull</span>
+            <span>Your transaction was unsuccessfull</span>
+            <div class="customer_list__transaction-dialog__opts">
+              <button nbButton nbStepperPrevious>prev</button>
+              <button nbButton nbStepperNext>next</button>
+            </div>
           </nb-step>
         </nb-stepper>
       </nb-card-body>
