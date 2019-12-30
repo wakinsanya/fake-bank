@@ -3,6 +3,14 @@ import { Request, Response } from 'express';
 import { from } from 'rxjs';
 
 export default class UsersController {
+  static listUsers(_req: Request, res: Response) {
+    from(User.find({})).subscribe({
+      next: users => res.status(200).json(users),
+      error: e => res.status(500).json(e)
+    })
+  }
+
+
   static createUser(req: Request, res: Response) {
     const newUser = new User(req.body);
     from(newUser.save()).subscribe({

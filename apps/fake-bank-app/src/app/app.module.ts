@@ -16,9 +16,9 @@ import { CustomersModule } from './customers/customers.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     BrowserAnimationsModule,
     HttpClientModule,
+    AppRoutingModule,
     DashboardModule,
     CustomersModule,
     CoreModule,

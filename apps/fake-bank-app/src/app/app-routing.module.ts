@@ -4,13 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'customers',
-    loadChildren: './customers/customers.module#CustomerModule'
+    loadChildren: () => import('./customers/customers.module').then(m => m.CustomersModule)
   },
   {
     path: 'dashboard',
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
-  { path: '**', pathMatch: 'full', redirectTo: 'customers' }
+  { path: '**', redirectTo: 'customers' }
 ];
 
 @NgModule({
