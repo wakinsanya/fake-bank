@@ -27,11 +27,17 @@ export interface SavingsAccount extends BaseAccount {
   annualPercentageYield: number;
 }
 
-export interface UserDocument extends User, Document {}
+export interface UserDocument extends User, Document {
+  _id: string;
+}
 
-export interface CurrentAccountDocument extends CurrentAccount, Document {}
+export interface CurrentAccountDocument extends CurrentAccount, Document {
+  _id: string;
+}
 
-export interface SavingsAccountDocument extends SavingsAccount, Document {}
+export interface SavingsAccountDocument extends SavingsAccount, Document {
+  _id: string;
+}
 
 export interface TransactionResult {
   readonly note: string;
