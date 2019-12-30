@@ -53,18 +53,58 @@
   </ng-template>
 
   <ng-template #transactionDialog let-ref="dialogRef">
-    <nb-card
-      class="customer-list__welcome-dialog"
-      [nbSpinner]="isLoadingTransactionData"
-      nbSpinnerMessage="working"
-    >
-      <nb-card-header>Your Accounts</nb-card-header>
+    <nb-card>
       <nb-card-body>
-
+        <nb-stepper orientation="horizontal" linear="true">
+          <nb-step [label]="labelOne">
+            <ng-template #labelOne>Transaction type</ng-template>
+            <h4>Choose transaction type</h4>
+            <div>
+              <nb-select placeholder="transaction type" [(selected)]="transactionRequest.type">
+                <nb-option value="0">deposit</nb-option>
+                <nb-option value="1">widthrawal</nb-option>
+                <nb-option value="2">transfer</nb-option>
+              </nb-select>
+            </div>
+            <div class="customer_list__transaction-dialog__opts">
+              <button nbButton disabled nbStepperNext>prev</button>
+              <button nbButton nbStepperNext [disabled]="!transactionRequest.type">next</button>
+            </div>
+          </nb-step>
+          <nb-step [label]="labelTwo">
+            <ng-template #labelTwo>Second step</ng-template>
+            <h4>Step content #2</h4>
+            <p class="lorem">
+              Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down.
+              Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up,
+              gravida vizzle, dang.
+            </p>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step label="Third step">
+            <h4>Step content #3</h4>
+            <p class="lorem">
+              Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down.
+              Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up,
+              gravida vizzle, dang.
+            </p>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step [label]="labelFour">
+            <ng-template #labelFour>Fourth step</ng-template>
+            <h4>Step content #4</h4>
+            <p class="lorem">
+              Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down.
+              Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up,
+              gravida vizzle, dang.
+            </p>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton disabled nbStepperNext>next</button>
+          </nb-step>
+        </nb-stepper>
       </nb-card-body>
-      <nb-card-footer>
-        <button nbButton status="success" (click)="ref.close()">Got it</button>
-      </nb-card-footer>
     </nb-card>
   </ng-template>
 </div>

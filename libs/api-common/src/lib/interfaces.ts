@@ -47,8 +47,8 @@ export interface TransactionResult {
 }
 
 export interface TransactionRequest {
-  balance: number;
-  shiftingAmount: number;
-  overdraftLimit: number;
-  type: TransactionType
+  balance?: number;
+  shiftingAmount?: number;
+  overdraftLimit?: number;
+  type?: TransactionType
 }

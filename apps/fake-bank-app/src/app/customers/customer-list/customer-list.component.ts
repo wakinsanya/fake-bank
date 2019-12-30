@@ -6,7 +6,7 @@ import {
   TemplateRef
 } from '@angular/core';
 import { UsersService } from '@fake-bank/core/services/users.service';
-import { User, CurrentAccount, SavingsAccount } from '@fake-bank/api-common';
+import { User, CurrentAccount, SavingsAccount, TransactionRequest } from '@fake-bank/api-common';
 import { tap, delay } from 'rxjs/operators';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { forkJoin } from 'rxjs';
@@ -30,6 +30,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   isLoadingTransactionData: boolean;
   customers: User[] = [];
   transactionFormData: TransactionFormData;
+  transactionRequest: TransactionRequest = {};
 
   constructor(
     private dialogService: NbDialogService,
