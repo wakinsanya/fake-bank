@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SavingsAccount } from '@fake-bank/api-common';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SavingsAccountService {
   constructor(public httpClient: HttpClient) {}
 
@@ -22,5 +20,9 @@ export class SavingsAccountService {
 
   deleteAccount(accountId: string): Observable<any> {
     return this.httpClient.delete(`/savings-accounts/${accountId}`);
+  }
+
+  getAccounts(): Observable<SavingsAccount[]> {
+    return this.httpClient.get<SavingsAccount[]>('api/savings-accounts');
   }
 }

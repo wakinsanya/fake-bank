@@ -2,6 +2,7 @@ import { Document } from 'mongoose';
 import { TransactionType } from './enums';
 
 export interface User {
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -15,6 +16,7 @@ export interface Account {
 }
 
 export interface BaseAccount {
+  _id: string;
   owner: string;
   balance: number;
 }
