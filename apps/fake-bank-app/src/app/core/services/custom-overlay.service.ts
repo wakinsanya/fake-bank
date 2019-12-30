@@ -25,9 +25,7 @@ export interface OverlayOptions<T> {
   height?: number | string;
 }
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class CustomOverlayService {
   constructor(private injector: Injector, private overlay: Overlay) {
     this.connectionPositionPairs = [

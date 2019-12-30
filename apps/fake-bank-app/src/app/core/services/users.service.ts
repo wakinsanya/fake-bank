@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '@fake-bank/api-common';
 
 @Injectable()
 export class UsersService {
 
-  constructor(httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getUsers(): Observable<Users> {
-
+  getUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>('/api/users');
   }
 }

@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from '@fake-bank/core/core.module';
 import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { AppRoutingModule } from './app-routing.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { CustomersModule } from './customers/customers.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,8 +18,9 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     BrowserModule,
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     BrowserAnimationsModule,
-    MatIconModule,
     HttpClientModule,
+    DashboardModule,
+    CustomersModule,
     CoreModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,
