@@ -7,11 +7,18 @@ import {
 } from '@angular/core';
 import { UsersService } from '@fake-bank/core/services/users.service';
 import { User, CurrentAccount, SavingsAccount } from '@fake-bank/api-common';
-import { tap } from 'rxjs/operators';
+import { tap, delay } from 'rxjs/operators';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { forkJoin } from 'rxjs';
 import { CurrentAccountService } from '@fake-bank/core/services/current-account.service';
 import { SavingsAccountService } from '@fake-bank/core/services/savings-account.service';
+
+interface TransactionFormData {
+  customerCurrentAccounts?: CurrentAccount[];
+  customerSavingsAccounts?: SavingsAccount[];
+  otherCurrentAccounts?: CurrentAccount[];
+  otherSavingsAccounts?: SavingsAccount[];
+}
 
 @Component({
   selector: 'fake-bank-customer-list',
@@ -22,9 +29,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   @ViewChild('welcomeDialog', { static: true }) welcomeDialog: TemplateRef<any>;
   isLoadingTransactionData: boolean;
   customers: User[] = [];
-  currentAccounts: CurrentAccount[] = [];
-  savingsAccounts: SavingsAccount[] = [];
-  userAccounts: Array<CurrentAccount | SavingsAccount> = [];
+  transactionFormData: TransactionFormData;
 
   constructor(
     private dialogService: NbDialogService,
@@ -38,9 +43,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     this.usersService
       .getUsers()
       .pipe(tap((users: User[]) => (this.customers = users)))
-      .subscribe({
-        next: data => console.log(data)
-      });
+      .subscribe();
   }
 
   ngAfterViewInit() {
@@ -48,9 +51,41 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   }
 
   startTransaction(customerId: string, templateRef: TemplateRef<any>) {
+    this.transactionFormData = {};
     this.dialogService.open(templateRef);
     this.isLoadingTransactionData = true;
-    forkJoin([this.currentAccountService.getAccounts(), this.savingsAccountService.getAccounts()]);
+    forkJoin([
+      this.currentAccountService.getAccounts().pipe(
+        tap((currentAccounts: CurrentAccount[]) => {
+          this.transactionFormData.customerCurrentAccounts = currentAccounts.filter(
+            v => v.owner === customerId
+          );
+          this.transactionFormData.otherCurrentAccounts = currentAccounts.filter(
+            v => v.owner !== customerId
+          );
+        })
+      ),
+      this.savingsAccountService.getAccounts().pipe(
+        tap((savingsAccounts: SavingsAccount[]) => {
+          this.transactionFormData.customerSavingsAccounts = savingsAccounts.filter(
+            v => v.owner === customerId
+          );
+          this.transactionFormData.otherSavingsAccounts = savingsAccounts.filter(
+            v => v.owner !== customerId
+          );
+        })
+      )
+    ])
+      .pipe(delay(500))
+      .subscribe({
+        next: () => {
+          console.log(this.transactionFormData);
+          this.isLoadingTransactionData = false;
+        },
+        error: e => {
+          this.isLoadingTransactionData = false;
+        }
+      });
   }
 
   deleteCustomer(customerId: string) {
