@@ -4,7 +4,12 @@ import * as compression from 'compression';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import { routeNotFound } from '@fake-bank/api-core';
-import { API_NAME, API_ROUTE_SUFFIX, DB_NAME, API_ROOT_PATH } from './constants';
+import {
+  API_NAME,
+  API_ROUTE_SUFFIX,
+  DB_NAME,
+  API_ROOT_PATH
+} from './constants';
 import { from } from 'rxjs';
 import { tap, mergeMap } from 'rxjs/operators';
 import { User as UserModel } from './modules/users/models/users.model';
@@ -24,9 +29,7 @@ class App {
 
   constructor() {
     this.app = express();
-    this.app
-      .use('/api', this.createRootRouter())
-      .use('*', routeNotFound);
+    this.app.use('/api', this.createRootRouter()).use('*', routeNotFound);
     this.initConfig();
     this.initMongoConnection();
   }
@@ -63,7 +66,9 @@ class App {
     )
       .pipe(
         tap(() => {
-          console.log(chalk.cyan(`Conncted to local MongoDB database: ${DB_NAME}`));
+          console.log(
+            chalk.cyan(`Conncted to local MongoDB database: ${DB_NAME}`)
+          );
         }),
         mergeMap(() => {
           console.log(chalk.cyan(`Seeding database...`));
@@ -84,15 +89,20 @@ class App {
               CurrentAccount.insertMany(
                 userDocs.map(doc => ({
                   owner: doc._id,
-                  balance: 1000,
-                  overdraftLimit: 500
+                  balance: this.getRandomFloat(100.0, 2000.0).toPrecision(2),
+                  overdraftLimit: this.getRandomFloat(50.0, 200.0).toPrecision(
+                    2
+                  )
                 }))
               ),
               SavingsAccount.insertMany(
                 userDocs.map(doc => ({
                   owner: doc._id,
-                  balance: 1000,
-                  annualPercentageYield: 5
+                  balance: this.getRandomFloat(1000.0, 15000.0).toPrecision(2),
+                  annualPercentageYield: this.getRandomFloat(
+                    0.2,
+                    3.0
+                  ).toPrecision(2)
                 }))
               )
             ])
@@ -130,7 +140,7 @@ class App {
                       }
                     }
                   );
-                }),
+                })
               ])
             );
           }
@@ -140,6 +150,10 @@ class App {
         next: () => console.log(chalk.cyan('Finished seeding database')),
         error: e => console.error(e)
       });
+  }
+
+  private getRandomFloat(min: number, max: number): number {
+    return Math.random() * (max - min) + min;
   }
 }
 
