@@ -50,11 +50,11 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   userAccounts: Array<CustomerAccount> = [];
   transactionFormData: TransactionFormData;
   transactionRequest: TransactionRequest = {};
-
   transactionRequestData = {
     instigatorAccount: undefined,
     shiftingAmount: undefined
   };
+  transactionNote = '';
 
   constructor(
     private dialogService: NbDialogService,
@@ -188,7 +188,9 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
       next: (transactionResult: TransactionResult) => {
         if (transactionResult.isAllowed) {
           this.toastrService.info('Your transaction was successfull');
+          this.transactionNote = "We've finished processing your transaction!"
         } else {
+          this.transactionNote = "We were unable to process your transaction...";
           this.toastrService.warning('Your transaction was unsuccessfull');
         }
       },
@@ -196,6 +198,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         this.toastrService.info(
           'Your transaction could not be processed at this time'
         );
+        this.transactionNote = 'Your transaction could not be processed at this time';
       }
     });
   }

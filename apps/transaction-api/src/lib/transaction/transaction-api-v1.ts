@@ -50,7 +50,7 @@ export class TransactionApiV1 extends BaseTransactionApi {
     const verdict: TransactionResult =
       shiftingAmount > 0
         ? {
-            note: 'depsoit is permissable',
+            note: 'deposit is permissable',
             isAllowed: true
           }
         : {
