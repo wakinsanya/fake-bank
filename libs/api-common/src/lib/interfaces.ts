@@ -1,5 +1,6 @@
 import { Document } from 'mongoose';
 import { TransactionType } from './enums';
+import { AccountType } from './types';
 
 export interface User {
   _id: string;
@@ -53,6 +54,7 @@ export interface TransactionRequest {
 }
 
 export interface CustomerTransactionRequest extends TransactionRequest {
-  insitgatorAccount: string;
+  instigatorAccount: string;
+  instigatorAccountType: AccountType;
   recieverAccount?: string;
 }

@@ -12,7 +12,9 @@ import {
   SavingsAccount,
   TransactionRequest,
   CustomerTransactionRequest,
-  TransactionType
+  TransactionType,
+  AccountType,
+  TransactionResult
 } from '@fake-bank/api-common';
 import { tap, delay } from 'rxjs/operators';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
@@ -26,7 +28,6 @@ interface TransactionFormData {
   otherCurrentAccounts?: CurrentAccount[];
   otherSavingsAccounts?: SavingsAccount[];
 }
-type AccountType = 'current' | 'savings';
 
 interface CustomerAccount {
   accountId: string;
@@ -52,8 +53,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   transactionRequestData = {
     instigatorAccount: '',
     shiftingAmount: 0
-  }
-
+  };
 
   constructor(
     private dialogService: NbDialogService,
@@ -171,15 +171,24 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   makeDeposit() {
     const transactionRequest: CustomerTransactionRequest = {
-      insitgatorAccount: this.transactionRequestData.instigatorAccount,
+      instigatorAccount: this.transactionRequestData.instigatorAccount,
+      instigatorAccountType: 'current',
       type: TransactionType.DEPOSIT,
       shiftingAmount: this.transactionRequestData.shiftingAmount
     };
-    console.log('configured req',transactionRequest);
-    this.usersService.makeTransactionRequest(transactionRequest)
-      .subscribe({
-        next: data => console.log(data),
-        error: e => console.error(e)
-      })
+    this.usersService.makeTransactionRequest(transactionRequest).subscribe({
+      next: (transactionResult: TransactionResult) => {
+        if (transactionResult.isAllowed) {
+          this.toastrService.info('Your transaction was successfull');
+        } else {
+          this.toastrService.warning('Your transaction was unsuccessfull');
+        }
+      },
+      error: e => {
+        this.toastrService.info(
+          'Your transaction could not be processed at this time'
+        );
+      }
+    });
   }
 }

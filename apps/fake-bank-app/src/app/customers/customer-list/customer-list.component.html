@@ -117,11 +117,11 @@
                   >Current account: {{ acc._id }}
                 </nb-option>
                 <nb-option
-                  value="acc"
+                  value="acc._id"
                   *ngFor="
                     let acc of transactionFormData.customerSavingsAccounts
                   "
-                  >Savings account: {{ acc._id }} (current account)</nb-option
+                  >Savings account: {{ acc._id }}</nb-option
                 >
               </nb-select>
               <input
@@ -153,7 +153,9 @@
             </div>
             <div class="customer_list__transaction-dialog__opts">
               <button nbButton nbStepperPrevious status="warning">prev</button>
-              <button nbButton nbStepperNext (click)="makeDeposit()">confirm</button>
+              <button nbButton nbStepperNext (click)="makeDeposit()">
+                confirm
+              </button>
             </div>
           </nb-step>
         </nb-stepper>

@@ -1,19 +1,25 @@
 import { User } from '../models/users.model';
 import { Request, Response } from 'express';
-import { from, of } from 'rxjs';
+import { from, of, throwError } from 'rxjs';
 import axios, { AxiosResponse } from 'axios';
 import { TRANSACTION_API_BASE_URL } from '@fake-bank-api/constants';
-import { concatMap } from 'rxjs/operators';
-import { CustomerTransactionRequest, TransactionRequest, TransactionType } from '@fake-bank/api-common';
+import { concatMap, tap } from 'rxjs/operators';
+import {
+  CustomerTransactionRequest,
+  TransactionRequest,
+  TransactionType,
+  TransactionResult
+} from '@fake-bank/api-common';
+import { CurrentAccount } from '@fake-bank-api/modules/current-accounts/models/current-account.model';
+import { SavingsAccount } from '@fake-bank-api/modules/savings-accounts/models/savings-accout.model';
 
 export default class UsersController {
   static listUsers(_req: Request, res: Response) {
     from(User.find({})).subscribe({
       next: users => res.status(200).json(users),
       error: e => res.status(500).json(e)
-    })
+    });
   }
-
 
   static createUser(req: Request, res: Response) {
     const newUser = new User(req.body);
@@ -50,35 +56,67 @@ export default class UsersController {
   }
 
   static processTransaction(req: Request, res: Response) {
-    // const { userId } = req.params;
-    const customerTransactionRequest = (req.body.transactionRequest as CustomerTransactionRequest);
-    console.log('stripped body', customerTransactionRequest);
-    const transactionRequest = UsersController.extractTransactionRequest(customerTransactionRequest);
-    console.log('Resolved transaction request', transactionRequest);
-    from(axios.post(`${TRANSACTION_API_BASE_URL}/evaluate`, { transactionRequest }))
+    const customerTransactionRequest = req.body
+      .transactionRequest as CustomerTransactionRequest;
+    const transactionRequest = UsersController.extractTransactionRequest(
+      customerTransactionRequest
+    );
+    let transactionResult: TransactionResult;
+    from(
+      axios.post(`${TRANSACTION_API_BASE_URL}/evaluate`, { transactionRequest })
+    )
       .pipe(
-        concatMap((axiosRes: AxiosResponse) => {
-          console.log(axiosRes.data);
-          return of({});
+        tap((axiosRes: AxiosResponse) => (transactionResult = axiosRes.data)),
+        concatMap(() => {
+          if (transactionResult.isAllowed) {
+            switch (transactionRequest.type) {
+              case TransactionType.DEPOSIT:
+                if (
+                  customerTransactionRequest.instigatorAccountType === 'current'
+                ) {
+                  return from(
+                    CurrentAccount.updateOne(
+                      { _id: customerTransactionRequest.instigatorAccount },
+                      {
+                        $inc: {
+                          balance: customerTransactionRequest.shiftingAmount
+                        }
+                      }
+                    )
+                  ).pipe(concatMap(() => of(transactionResult)));
+                } else if (
+                  customerTransactionRequest.instigatorAccountType === 'savings'
+                ) {
+                  return from(
+                    SavingsAccount.updateOne(
+                      { _id: customerTransactionRequest.instigatorAccount },
+                      {
+                        $inc: {
+                          balance: customerTransactionRequest.shiftingAmount
+                        }
+                      }
+                    )
+                  ).pipe(concatMap(() => of(transactionResult)));
+                }
+                break;
+              default:
+                return throwError(new Error('unknown account type'));
+            }
+          } else {
+            return of(transactionResult);
+          }
         })
-      ).subscribe({
-        next: () => {
-          res.status(200).json({
-            message: 'transaction is good',
-            isAllowed: true
-          });
-        },
-        error: e => {
-          res.status(500).json({
-            message: 'transaction is not good',
-            isAllowed: false
-          });
-        }
+      )
+      .subscribe({
+        next: verdict => res.status(200).json(verdict),
+        error: e => res.status(500).json(e)
       });
   }
 
-  private static extractTransactionRequest(customerTransactionRequest: CustomerTransactionRequest): TransactionRequest {
-    switch(customerTransactionRequest.type) {
+  private static extractTransactionRequest(
+    customerTransactionRequest: CustomerTransactionRequest
+  ): TransactionRequest {
+    switch (customerTransactionRequest.type) {
       case TransactionType.DEPOSIT:
         return {
           shiftingAmount: customerTransactionRequest.shiftingAmount,
