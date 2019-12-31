@@ -51,6 +51,7 @@ export default class UsersController {
 
   static processTransaction(req: Request, res: Response) {
     // const { userId } = req.params;
+    console.log('Request body!', req.body);
     const customerTransactionRequest = (req.body.transactionRequest as CustomerTransactionRequest);
     const transactionRequest = this.extractTransactionRequest(customerTransactionRequest);
 

@@ -99,16 +99,18 @@
                 nbInput
                 fullWidth
                 status="success"
+                [(ngModel)]="transactionRequestData.shiftingAmount"
                 placeholder="deposit amount"
                 *ngIf="transactionRequest.type === 'deposit'"
               />
               <nb-select
                 fullWidth
+                [(selected)]="transactionRequestData.instigatorAccount"
                 placeholder="select account"
                 *ngIf="transactionRequest.type === 'deposit'"
               >
                 <nb-option
-                  value="acc"
+                  [value]="acc._id"
                   *ngFor="
                     let acc of transactionFormData.customerCurrentAccounts
                   "
@@ -151,18 +153,7 @@
             </div>
             <div class="customer_list__transaction-dialog__opts">
               <button nbButton nbStepperPrevious status="warning">prev</button>
-              <button nbButton nbStepperNext>confirm</button>
-            </div>
-          </nb-step>
-          <nb-step label="Complete">
-            <h4>Transaction complete</h4>
-            <nb-icon icon="checkmark-circle-outline" status="success"></nb-icon>
-            <nb-icon icon="close-outline" status="danger"></nb-icon>
-            <span>Your transaction was successfull</span>
-            <span>Your transaction was unsuccessfull</span>
-            <div class="customer_list__transaction-dialog__opts">
-              <button nbButton nbStepperPrevious status="warning">prev</button>
-              <button nbButton nbStepperNext>next</button>
+              <button nbButton nbStepperNext (click)="makeDeposit()">confirm</button>
             </div>
           </nb-step>
         </nb-stepper>

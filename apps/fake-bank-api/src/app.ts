@@ -29,8 +29,8 @@ class App {
 
   constructor() {
     this.app = express();
-    this.app.use('/api', this.createRootRouter()).use('*', routeNotFound);
     this.initConfig();
+    this.app.use('/api', this.createRootRouter()).use('*', routeNotFound);
     this.initMongoConnection();
   }
 

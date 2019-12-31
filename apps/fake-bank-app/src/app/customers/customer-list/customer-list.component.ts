@@ -49,6 +49,12 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   transactionFormData: TransactionFormData;
   transactionRequest: TransactionRequest = {};
 
+  transactionRequestData = {
+    instigatorAccount: '',
+    shiftingAmount: 0
+  }
+
+
   constructor(
     private dialogService: NbDialogService,
     private usersService: UsersService,
@@ -163,15 +169,17 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   makeTransaction(customerId: string) {}
 
-  makeDeposit(
-    accountId: string,
-    amount: number
-  ) {
+  makeDeposit() {
     const transactionRequest: CustomerTransactionRequest = {
-      insitgatorAccount: accountId,
+      insitgatorAccount: this.transactionRequestData.instigatorAccount,
       type: TransactionType.DEPOSIT,
-      shiftingAmount: amount
+      shiftingAmount: this.transactionRequestData.shiftingAmount
     };
+    console.log('configured req',transactionRequest);
     this.usersService.makeTransactionRequest(transactionRequest)
+      .subscribe({
+        next: data => console.log(data),
+        error: e => console.error(e)
+      })
   }
 }
