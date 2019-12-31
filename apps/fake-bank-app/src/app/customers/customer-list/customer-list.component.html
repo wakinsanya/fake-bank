@@ -64,7 +64,7 @@
   <ng-template #transactionDialog let-ref="dialogRef">
     <nb-card class="card__wrap">
       <nb-card-body>
-        <nb-stepper orientation="horizontal" linear="true">
+        <nb-stepper orientation="horizontal" linear="true" #stepper>
           <nb-step label="Transaction type">
             <h4>Choose transaction type</h4>
             <div>
@@ -75,8 +75,8 @@
                 [(selected)]="transactionRequest.type"
               >
                 <nb-option value="deposit">deposit</nb-option>
-                <nb-option value="withdrawal">widthrawal</nb-option>
-                <nb-option value="transfer">transfer</nb-option>
+                <nb-option value="withdrawal" disabled=true>widthrawal</nb-option>
+                <nb-option value="transfer" disabled=true>transfer</nb-option>
               </nb-select>
             </div>
             <div class="customer_list__transaction-dialog__opts">
@@ -110,14 +110,14 @@
                 *ngIf="transactionRequest.type === 'deposit'"
               >
                 <nb-option
-                  [value]="acc._id"
+                  [value]="acc"
                   *ngFor="
                     let acc of transactionFormData.customerCurrentAccounts
                   "
                   >Current account: {{ acc._id }}
                 </nb-option>
                 <nb-option
-                  value="acc._id"
+                  [value]="acc"
                   *ngFor="
                     let acc of transactionFormData.customerSavingsAccounts
                   "
@@ -133,6 +133,7 @@
                 *ngIf="transactionRequest.type === 'withdrawal'"
               />
               <input
+                style="margin-bottom: 20px;"
                 type="text"
                 nbInput
                 fullWidth

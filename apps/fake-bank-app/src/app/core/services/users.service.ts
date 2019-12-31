@@ -14,7 +14,6 @@ export class UsersService {
   }
 
   makeTransactionRequest(request: CustomerTransactionRequest): Observable<TransactionResult> {
-    console.log('req body pre', { transactionRequest: request });
     return this.httpClient.post<TransactionResult>('api/users/transaction', { transactionRequest: request });
   }
 }

@@ -51,8 +51,8 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   transactionRequest: TransactionRequest = {};
 
   transactionRequestData = {
-    instigatorAccount: '',
-    shiftingAmount: 0
+    instigatorAccount: undefined,
+    shiftingAmount: undefined
   };
 
   constructor(
@@ -167,12 +167,13 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     this.toastrService.success('', 'Account Closed');
   }
 
-  makeTransaction(customerId: string) {}
-
   makeDeposit() {
     const transactionRequest: CustomerTransactionRequest = {
-      instigatorAccount: this.transactionRequestData.instigatorAccount,
-      instigatorAccountType: 'current',
+      instigatorAccount: this.transactionRequestData.instigatorAccount._id,
+      instigatorAccountType: this.transactionRequestData.instigatorAccount
+        .overdraftLimit
+        ? 'current'
+        : 'savings',
       type: TransactionType.DEPOSIT,
       shiftingAmount: this.transactionRequestData.shiftingAmount
     };
