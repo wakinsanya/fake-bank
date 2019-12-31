@@ -51,15 +51,15 @@ export default class UsersController {
 
   static processTransaction(req: Request, res: Response) {
     // const { userId } = req.params;
-    console.log('Request body!', req.body);
     const customerTransactionRequest = (req.body.transactionRequest as CustomerTransactionRequest);
-    const transactionRequest = this.extractTransactionRequest(customerTransactionRequest);
-
-    from(axios.post(`${TRANSACTION_API_BASE_URL}/evaluate`, transactionRequest))
+    console.log('stripped body', customerTransactionRequest);
+    const transactionRequest = UsersController.extractTransactionRequest(customerTransactionRequest);
+    console.log('Resolved transaction request', transactionRequest);
+    from(axios.post(`${TRANSACTION_API_BASE_URL}/evaluate`, { transactionRequest }))
       .pipe(
         concatMap((axiosRes: AxiosResponse) => {
           console.log(axiosRes.data);
-          return of();
+          return of({});
         })
       ).subscribe({
         next: () => {
@@ -69,7 +69,6 @@ export default class UsersController {
           });
         },
         error: e => {
-          console.error(e);
           res.status(500).json({
             message: 'transaction is not good',
             isAllowed: false
@@ -82,8 +81,6 @@ export default class UsersController {
     switch(customerTransactionRequest.type) {
       case TransactionType.DEPOSIT:
         return {
-          overdraftLimit: customerTransactionRequest.overdraftLimit,
-          balance: customerTransactionRequest.balance,
           shiftingAmount: customerTransactionRequest.shiftingAmount,
           type: customerTransactionRequest.type
         };

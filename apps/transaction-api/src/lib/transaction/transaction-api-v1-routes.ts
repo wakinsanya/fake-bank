@@ -9,11 +9,16 @@ transactionApiV1Router
   .route('/evaluate')
   .post((req: Request, res: Response) => {
     try {
+      console.log('Transaction API invoked!');
       const transactionResult = transactionApiV1.evaluate((req.body as any)
         .transactionRequest as TransactionRequest);
+      console.log(transactionResult);
       res.status(200).json(transactionResult);
     } catch (e) {
-      res.status(500).json(e);
+      console.error(e);
+      res
+        .status(200)
+        .json({ isAllowed: false, message: 'error processing transaction' });
     }
   });
 
