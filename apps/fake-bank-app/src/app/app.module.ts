@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from '@fake-bank/core/core.module';
@@ -22,7 +21,7 @@ import { CustomersModule } from './customers/customers.module';
     DashboardModule,
     CustomersModule,
     CoreModule,
-    NbThemeModule.forRoot({ name: 'dark' }),
+    NbThemeModule.forRoot({ name: 'cosmic' }),
     NbLayoutModule,
     NbEvaIconsModule,
     NbDialogModule.forRoot(),

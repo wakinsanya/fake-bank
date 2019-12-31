@@ -21,14 +21,14 @@
           Make a Transaction
         </button>
         <button
-        nbButton
-        status="info"
-        size="small"
-        outline
-        (click)="deleteCustomer(customer._id)"
-      >
-        View Accounts
-      </button>
+          nbButton
+          status="info"
+          size="small"
+          outline
+          (click)="showUserAccounts(customer._id, userAccountsDialog)"
+        >
+          View Accounts
+        </button>
         <button
           nbButton
           status="danger"
@@ -52,7 +52,7 @@
         <p>
           This is a distributed electronic banking platform. You can make
           transactions between the demo accounts provided. Each transaction will
-          be evaluated by an external api which determines its validity.
+          be evaluated by an external api for its validity.
         </p>
       </nb-card-body>
       <nb-card-footer>
@@ -62,13 +62,17 @@
   </ng-template>
 
   <ng-template #transactionDialog let-ref="dialogRef">
-    <nb-card>
+    <nb-card class="card__wrap">
       <nb-card-body>
         <nb-stepper orientation="horizontal" linear="true">
           <nb-step label="Transaction type">
             <h4>Choose transaction type</h4>
             <div>
-              <nb-select placeholder="transaction type" [(selected)]="transactionRequest.type">
+              <nb-select
+                status="success"
+                placeholder="transaction type"
+                [(selected)]="transactionRequest.type"
+              >
                 <nb-option value="deposit">deposit</nb-option>
                 <nb-option value="withdrawal">widthrawal</nb-option>
                 <nb-option value="transfer">transfer</nb-option>
@@ -76,16 +80,74 @@
             </div>
             <div class="customer_list__transaction-dialog__opts">
               <button nbButton disabled nbStepperNext>prev</button>
-              <button nbButton nbStepperNext [disabled]="!transactionRequest.type">next</button>
+              <button
+                nbButton
+                nbStepperNext
+                [disabled]="!transactionRequest.type"
+              >
+                next
+              </button>
             </div>
           </nb-step>
           <nb-step label="Information">
             <h4>Provide transaction information</h4>
             <div>
-              <input type="text" nbInput fullWidth status="success" placeholder="enter deposit amount">
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                status="success"
+                placeholder="deposit amount"
+                *ngIf="transactionRequest.type === 'deposit'"
+              />
+              <nb-select
+                placeholder="select account"
+                *ngIf="transactionRequest.type === 'depsoit'"
+              >
+                <nb-option
+                  value="acc"
+                  *ngFor="
+                    let acc of transactionFormData.customerCurrentAccounts
+                  "
+                  >Current Account: {{ acc._id }}
+                </nb-option>
+                <nb-option
+                  value="acc"
+                  *ngFor="
+                    let acc of transactionFormData.customerSavingsAccounts
+                  "
+                  >Account id: {{ acc._id }} (current account)</nb-option
+                >
+              </nb-select>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                status="success"
+                placeholder="withdrawal amount"
+                *ngIf="transactionRequest.type === 'withdrawal'"
+              />
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                status="success"
+                placeholder="transfer amount"
+                *ngIf="transactionRequest.type === 'transfer'"
+              />
+              <nb-select
+                placeholder="reciever account"
+                *ngIf="transactionRequest.type === 'transfer'"
+              >
+                <nb-option
+                  value="acc"
+                  *ngFor="let acc of transactionFormData.otherCurrentAccounts"
+                  >Account id: {{ acc._id }} (current account)</nb-option
+                >
+              </nb-select>
             </div>
             <div class="customer_list__transaction-dialog__opts">
-              <button nbButton nbStepperPrevious>prev</button>
+              <button nbButton nbStepperPrevious status="warning">prev</button>
               <button nbButton nbStepperNext>next</button>
             </div>
           </nb-step>
@@ -96,11 +158,33 @@
             <span>Your transaction was successfull</span>
             <span>Your transaction was unsuccessfull</span>
             <div class="customer_list__transaction-dialog__opts">
-              <button nbButton nbStepperPrevious>prev</button>
+              <button nbButton nbStepperPrevious status="warning">prev</button>
               <button nbButton nbStepperNext>next</button>
             </div>
           </nb-step>
         </nb-stepper>
+      </nb-card-body>
+    </nb-card>
+  </ng-template>
+
+  <ng-template #userAccountsDialog let-ref="dialogRef">
+    <nb-card class="card__wrap" [nbSpinner]="isLoading">
+      <nb-card-header>Your Accounts</nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item *ngFor="let account of userAccounts">
+            <div *ngIf="account.accountType === 'current'">
+             <p>Current account: {{ account.accountId }}<p>
+             <p>Balance: {{ account.balance }} euros<p>
+             <p>Overdraft limit: {{ account.overdraftLimit}} euros<p>
+            </div>
+            <div *ngIf="account.accountType === 'savings'">
+              <p>Savings account: {{ account.accountId }}<p>
+              <p>Balance: {{ account.balance }} euros<p>
+              <p>APY: {{ account.apy}}%<p>
+             </div>
+          </nb-list-item>
+        </nb-list>
       </nb-card-body>
     </nb-card>
   </ng-template>

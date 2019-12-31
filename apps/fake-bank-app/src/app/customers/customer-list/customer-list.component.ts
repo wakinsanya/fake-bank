@@ -24,6 +24,15 @@ interface TransactionFormData {
   otherCurrentAccounts?: CurrentAccount[];
   otherSavingsAccounts?: SavingsAccount[];
 }
+type AccountType = 'current' | 'savings';
+
+interface CustomerAccount {
+  accountId: string;
+  accountType: AccountType;
+  balance: number;
+  overdraftLimit?: number;
+  apy?: number;
+}
 
 @Component({
   selector: 'fake-bank-customer-list',
@@ -34,7 +43,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   @ViewChild('welcomeDialog', { static: true }) welcomeDialog: TemplateRef<any>;
   isLoading: boolean;
   customers: User[] = [];
-  userAccounts: Array<CurrentAccount | SavingsAccount> = [];
+  userAccounts: Array<CustomerAccount> = [];
   transactionFormData: TransactionFormData;
   transactionRequest: TransactionRequest = {};
 
@@ -98,20 +107,41 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   }
 
   showUserAccounts(customerId: string, templateRef: TemplateRef<any>) {
+    this.userAccounts = [];
     this.dialogService.open(templateRef);
     this.isLoading = true;
     forkJoin([
       this.currentAccountService.getAccounts().pipe(
         tap((currentAccounts: CurrentAccount[]) => {
           this.userAccounts.push(
-            ...currentAccounts.filter(v => v.owner === customerId)
+            ...currentAccounts
+              .filter(v => v.owner === customerId)
+              .map(
+                v =>
+                  ({
+                    accountId: v._id,
+                    accountType: 'current',
+                    balance: v.balance,
+                    overdraftLimit: v.overdraftLimit
+                  } as CustomerAccount)
+              )
           );
         })
       ),
       this.savingsAccountService.getAccounts().pipe(
         tap((savingsAccounts: SavingsAccount[]) => {
           this.userAccounts.push(
-            ...savingsAccounts.filter(v => v.owner === customerId)
+            ...savingsAccounts
+              .filter(v => v.owner === customerId)
+              .map(
+                v =>
+                  ({
+                    accountId: v._id,
+                    accountType: 'savings',
+                    balance: v.balance,
+                    apy: v.annualPercentageYield
+                  } as CustomerAccount)
+              )
           );
         })
       )
