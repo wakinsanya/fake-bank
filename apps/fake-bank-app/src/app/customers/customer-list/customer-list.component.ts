@@ -10,7 +10,9 @@ import {
   User,
   CurrentAccount,
   SavingsAccount,
-  TransactionRequest
+  TransactionRequest,
+  CustomerTransactionRequest,
+  TransactionType
 } from '@fake-bank/api-common';
 import { tap, delay } from 'rxjs/operators';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
@@ -97,7 +99,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
       .pipe(delay(500))
       .subscribe({
         next: () => {
-          console.log(this.transactionFormData);
           this.isLoading = false;
         },
         error: e => {
@@ -158,5 +159,19 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   deleteCustomer(customerId: string) {
     this.customers = this.customers.filter(v => v._id !== customerId);
     this.toastrService.success('', 'Account Closed');
+  }
+
+  makeTransaction(customerId: string) {}
+
+  makeDeposit(
+    accountId: string,
+    amount: number
+  ) {
+    const transactionRequest: CustomerTransactionRequest = {
+      insitgatorAccount: accountId,
+      type: TransactionType.DEPOSIT,
+      shiftingAmount: amount
+    };
+    this.usersService.makeTransactionRequest(transactionRequest)
   }
 }

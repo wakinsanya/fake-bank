@@ -9,8 +9,10 @@ usersRouter
   .get(UsersController.listUsers)
   .patch(UsersController.updateUser);
 
+usersRouter.route('/users/:userId').delete(UsersController.deleteUser);
+
 usersRouter
-  .route('/users/:userId')
-  .delete(UsersController.deleteUser);
+  .route('/users/transaction')
+  .post(UsersController.processTransaction)
 
 export default usersRouter as Router;

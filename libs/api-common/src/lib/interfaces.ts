@@ -9,7 +9,6 @@ export interface User {
   accounts: Array<Account>;
 }
 
-
 export interface Account {
   model: string;
   modelRef: string;
@@ -51,4 +50,9 @@ export interface TransactionRequest {
   shiftingAmount?: number;
   overdraftLimit?: number;
   type?: TransactionType
+}
+
+export interface CustomerTransactionRequest extends TransactionRequest {
+  insitgatorAccount: string;
+  recieverAccount?: string;
 }

@@ -36,7 +36,7 @@
           outline
           (click)="deleteCustomer(customer._id)"
         >
-          Delete Account
+          Delete User
         </button>
       </div>
     </nb-card-body>
@@ -69,6 +69,7 @@
             <h4>Choose transaction type</h4>
             <div>
               <nb-select
+                fullWidth
                 status="success"
                 placeholder="transaction type"
                 [(selected)]="transactionRequest.type"
@@ -93,6 +94,7 @@
             <h4>Provide transaction information</h4>
             <div>
               <input
+                style="margin-bottom: 20px;"
                 type="text"
                 nbInput
                 fullWidth
@@ -101,22 +103,23 @@
                 *ngIf="transactionRequest.type === 'deposit'"
               />
               <nb-select
+                fullWidth
                 placeholder="select account"
-                *ngIf="transactionRequest.type === 'depsoit'"
+                *ngIf="transactionRequest.type === 'deposit'"
               >
                 <nb-option
                   value="acc"
                   *ngFor="
                     let acc of transactionFormData.customerCurrentAccounts
                   "
-                  >Current Account: {{ acc._id }}
+                  >Current account: {{ acc._id }}
                 </nb-option>
                 <nb-option
                   value="acc"
                   *ngFor="
                     let acc of transactionFormData.customerSavingsAccounts
                   "
-                  >Account id: {{ acc._id }} (current account)</nb-option
+                  >Savings account: {{ acc._id }} (current account)</nb-option
                 >
               </nb-select>
               <input
@@ -148,7 +151,7 @@
             </div>
             <div class="customer_list__transaction-dialog__opts">
               <button nbButton nbStepperPrevious status="warning">prev</button>
-              <button nbButton nbStepperNext>next</button>
+              <button nbButton nbStepperNext>confirm</button>
             </div>
           </nb-step>
           <nb-step label="Complete">
@@ -174,15 +177,22 @@
         <nb-list>
           <nb-list-item *ngFor="let account of userAccounts">
             <div *ngIf="account.accountType === 'current'">
-             <p>Current account: {{ account.accountId }}<p>
-             <p>Balance: {{ account.balance }} euros<p>
-             <p>Overdraft limit: {{ account.overdraftLimit}} euros<p>
+              <p>Current account: {{ account.accountId }}</p>
+              <p></p>
+              <p>Balance: {{ account.balance }} euros</p>
+              <p></p>
+              <p>Overdraft limit: {{ account.overdraftLimit }} euros</p>
+              <p></p>
             </div>
+
             <div *ngIf="account.accountType === 'savings'">
-              <p>Savings account: {{ account.accountId }}<p>
-              <p>Balance: {{ account.balance }} euros<p>
-              <p>APY: {{ account.apy}}%<p>
-             </div>
+              <p>Savings account: {{ account.accountId }}</p>
+              <p></p>
+              <p>Balance: {{ account.balance }} euros</p>
+              <p></p>
+              <p>APY: {{ account.apy }}%</p>
+              <p></p>
+            </div>
           </nb-list-item>
         </nb-list>
       </nb-card-body>
