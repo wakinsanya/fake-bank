@@ -21,6 +21,7 @@ import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { forkJoin } from 'rxjs';
 import { CurrentAccountService } from '@fake-bank/core/services/current-account.service';
 import { SavingsAccountService } from '@fake-bank/core/services/savings-account.service';
+import { ThrowStmt } from '@angular/compiler';
 
 interface TransactionFormData {
   customerCurrentAccounts?: CurrentAccount[];
@@ -77,8 +78,14 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   startTransaction(customerId: string, templateRef: TemplateRef<any>) {
     this.transactionFormData = {};
     this.dialogService.open(templateRef).onClose.subscribe({
-      next: () => (this.transactionFormData = {})
-    });
+      next: () => {
+        this.transactionFormData = {};
+        this.transactionRequestData = {
+          instigatorAccount: undefined,
+          shiftingAmount: undefined
+        };
+      }
+    })
     this.isLoading = true;
     forkJoin([
       this.currentAccountService.getAccounts().pipe(

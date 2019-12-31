@@ -159,6 +159,10 @@
               </button>
             </div>
           </nb-step>
+          <nb-step label="Complete">
+            <h4>You're done!</h4>
+            <button nbButton (click)="ref.close()">close</button>
+          </nb-step>
         </nb-stepper>
       </nb-card-body>
     </nb-card>
