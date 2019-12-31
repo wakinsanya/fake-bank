@@ -11,10 +11,10 @@ class App {
 
   constructor() {
     this.app = express();
+    this.initConfig();
     this.app
       .use('/api/v1/', this.createRootRouter())
       .use('*', routeNotFound);
-    this.initConfig();
   }
 
   private initConfig() {
