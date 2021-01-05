@@ -44,7 +44,7 @@
     "@types/compression": "^1.0.1",
     "@types/helmet": "0.0.45",
     "@types/mongoose": "^5.5.32",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "chalk": "^3.0.0",
     "compression": "^1.7.4",
